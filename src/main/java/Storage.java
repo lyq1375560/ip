@@ -2,12 +2,22 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.ArrayList;
 
+/**
+ * Handles loading and saving Tasky tasks to disk.
+ * Tasks are stored in a human-editable text file.
+ */
 public class Storage {
 
     private static final String DATA_DIR = "data";
     private static final String FILE_PATH = "data/tasky.txt";
 
     // Load tasks at startup
+    /**
+     * Loads tasks from the data file.
+     *
+     * @return List of tasks loaded from disk.
+     * @throws IOException If an I/O error occurs.
+     */
     public static ArrayList<Task> load() throws IOException {
         ArrayList<Task> tasks = new ArrayList<>();
         File file = new File(FILE_PATH);
@@ -28,6 +38,12 @@ public class Storage {
     }
 
     // Save tasks whenever they change
+    /**
+     * Saves all tasks to the data file.
+     *
+     * @param tasks List of tasks to save.
+     * @throws IOException If an I/O error occurs.
+     */
     public static void save(ArrayList<Task> tasks) throws IOException {
         createIfMissing();
 
