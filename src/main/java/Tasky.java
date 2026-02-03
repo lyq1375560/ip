@@ -1,11 +1,23 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Tasky is a command-line chatbot that helps users manage tasks.
+ * It supports adding, listing, marking, deleting, finding, and
+ * persisting tasks across program runs.
+ */
 public class Tasky {
 
     private static final String LINE =
             "____________________________________________________________";
 
+    /**
+     * Runs the Tasky chatbot application.
+     * Reads user commands from standard input and executes them
+     * until the user exits the program.
+     *
+     * @param args Command-line arguments (not used).
+     */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -170,7 +182,14 @@ public class Tasky {
     }
 
     // ---------- helper methods ----------
-
+    /**
+     * Parses a user-provided task index and validates its range.
+     *
+     * @param input The raw index string entered by the user.
+     * @param size The current number of tasks.
+     * @return Zero-based index of the task.
+     * @throws TaskyException If the index is invalid or out of range.
+     */
     private static int parseIndex(String input, int size) throws TaskyException {
         try {
             int index = Integer.parseInt(input) - 1;
@@ -183,6 +202,12 @@ public class Tasky {
         }
     }
 
+    /**
+     * Prints a confirmation message after a task is added.
+     *
+     * @param task The task that was added.
+     * @param count The total number of tasks after addition.
+     */
     private static void printAddMessage(Task task, int count) {
         System.out.println(LINE);
         System.out.println(" Got it. I've added this task:");
@@ -191,6 +216,12 @@ public class Tasky {
         System.out.println(LINE);
     }
 
+    /**
+     * Prints all tasks whose descriptions contain the given keyword.
+     *
+     * @param tasks The list of tasks to search.
+     * @param keyword The keyword to match against task descriptions.
+     */
     private static void printFindResults(ArrayList<Task> tasks, String keyword) {
         System.out.println(LINE);
         System.out.println(" Here are the matching tasks in your list:");
@@ -209,10 +240,12 @@ public class Tasky {
 
         System.out.println(LINE);
     }
-
 }
 
-
+/**
+ * Represents the type of a task managed by Tasky.
+ * Each type corresponds to a specific task category.
+ */
 enum TaskType {
     TODO("[T]"),
     DEADLINE("[D]"),
