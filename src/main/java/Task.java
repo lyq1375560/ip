@@ -17,6 +17,7 @@ abstract class Task {
         this.isDone = false;
     }
 
+<<<<<<< HEAD
     /**
      * Marks this task as completed.
      */
@@ -30,16 +31,27 @@ abstract class Task {
     public void unmarkDone() {
         isDone = false;
     }
+=======
+    public void markDone() { isDone = true; }
+    public void unmarkDone() { isDone = false; }
+>>>>>>> 533a17a (Level-7: save tasks to disk)
 
     protected String getStatusIcon() {
         return isDone ? "[X]" : "[ ]";
     }
 
+<<<<<<< HEAD
     /**
      * Returns a string representation of this task for display.
      *
      * @return Formatted task string.
      */
+=======
+    public String toFileString() {
+        return type.name() + " | " + (isDone ? "1" : "0") + " | " + description;
+    }
+
+>>>>>>> 533a17a (Level-7: save tasks to disk)
     @Override
     public String toString() {
         return type.getSymbol() + getStatusIcon() + " " + description;

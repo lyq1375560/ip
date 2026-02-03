@@ -10,6 +10,8 @@ public class Tasky {
 
     private static final String LINE =
             "____________________________________________________________";
+    private static final String DATA_DIR = "data";
+    private static final String DATA_FILE = "data/tasky.txt";
 
     /**
      * Runs the Tasky chatbot application.
@@ -20,6 +22,7 @@ public class Tasky {
      */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+<<<<<<< HEAD
 
         // Level-7: load tasks from disk
         ArrayList<Task> tasks;
@@ -27,9 +30,18 @@ public class Tasky {
             tasks = Storage.load();
         } catch (Exception e) {
             tasks = new ArrayList<>();
+=======
+        ArrayList<Task> tasks = new ArrayList<>();
+        Storage storage = new Storage(DATA_DIR, DATA_FILE);
+
+        // Load saved tasks
+        try {
+            storage.load(tasks);
+        } catch (TaskyException e) {
+            System.out.println("⚠ " + e.getMessage());
+>>>>>>> 533a17a (Level-7: save tasks to disk)
         }
 
-        // Greeting
         System.out.println(LINE);
         System.out.println(" Hello! I'm Tasky");
         System.out.println(" What can I do for you?");
@@ -39,7 +51,6 @@ public class Tasky {
             String input = scanner.nextLine();
 
             try {
-                // bye
                 if (input.equals("bye")) {
                     System.out.println(LINE);
                     System.out.println(" Bye. Hope to see you again soon!");
@@ -47,7 +58,6 @@ public class Tasky {
                     break;
                 }
 
-                // list
                 if (input.equals("list")) {
                     System.out.println(LINE);
                     System.out.println(" Here are the tasks in your list:");
@@ -58,42 +68,44 @@ public class Tasky {
                     continue;
                 }
 
-                // mark
                 if (input.startsWith("mark ")) {
                     int index = parseIndex(input.substring(5), tasks.size());
-                    Task task = tasks.get(index);
-                    task.markDone();
+                    tasks.get(index).markDone();
+                    storage.save(tasks);
 
                     // save after modification
                     Storage.save(tasks);
 
                     System.out.println(LINE);
                     System.out.println(" Nice! I've marked this task as done:");
-                    System.out.println("   " + task);
+                    System.out.println("   " + tasks.get(index));
                     System.out.println(LINE);
                     continue;
                 }
 
-                // unmark
                 if (input.startsWith("unmark ")) {
                     int index = parseIndex(input.substring(7), tasks.size());
-                    Task task = tasks.get(index);
-                    task.unmarkDone();
+                    tasks.get(index).unmarkDone();
+                    storage.save(tasks);
 
                     // save after modification
                     Storage.save(tasks);
 
                     System.out.println(LINE);
                     System.out.println(" OK, I've marked this task as not done yet:");
-                    System.out.println("   " + task);
+                    System.out.println("   " + tasks.get(index));
                     System.out.println(LINE);
                     continue;
                 }
 
+<<<<<<< HEAD
                 // delete
+=======
+>>>>>>> 533a17a (Level-7: save tasks to disk)
                 if (input.startsWith("delete ")) {
                     int index = parseIndex(input.substring(7), tasks.size());
                     Task removed = tasks.remove(index);
+                    storage.save(tasks);
 
                     // save after modification
                     Storage.save(tasks);
@@ -106,49 +118,54 @@ public class Tasky {
                     continue;
                 }
 
-                // todo
                 if (input.startsWith("todo")) {
                     if (input.equals("todo")) {
                         throw new TaskyException("The description of a todo cannot be empty.");
                     }
-
                     Task task = new Todo(input.substring(5));
                     tasks.add(task);
+<<<<<<< HEAD
 
                     // save after modification
                     Storage.save(tasks);
 
                     printAddMessage(task, tasks.size());
+=======
+                    storage.save(tasks);
+                    printAdd(task, tasks.size());
+>>>>>>> 533a17a (Level-7: save tasks to disk)
                     continue;
                 }
 
-                // deadline
                 if (input.startsWith("deadline")) {
                     if (!input.contains(" /by ")) {
                         throw new TaskyException("A deadline must have a /by time.");
                     }
-
                     String[] parts = input.substring(9).split(" /by ");
                     Task task = new Deadline(parts[0], parts[1]);
                     tasks.add(task);
+<<<<<<< HEAD
 
                     // save after modification
                     Storage.save(tasks);
 
                     printAddMessage(task, tasks.size());
+=======
+                    storage.save(tasks);
+                    printAdd(task, tasks.size());
+>>>>>>> 533a17a (Level-7: save tasks to disk)
                     continue;
                 }
 
-                // event
                 if (input.startsWith("event")) {
                     if (!input.contains(" /from ") || !input.contains(" /to ")) {
                         throw new TaskyException("An event must have /from and /to times.");
                     }
-
                     String[] parts = input.substring(6).split(" /from ");
                     String[] times = parts[1].split(" /to ");
                     Task task = new Event(parts[0], times[0], times[1]);
                     tasks.add(task);
+<<<<<<< HEAD
 
                     // save after modification
                     Storage.save(tasks);
@@ -169,6 +186,13 @@ public class Tasky {
                     continue;
                 }
 
+=======
+                    storage.save(tasks);
+                    printAdd(task, tasks.size());
+                    continue;
+                }
+
+>>>>>>> 533a17a (Level-7: save tasks to disk)
                 throw new TaskyException("I'm sorry, but I don't know what that means.");
 
             } catch (Exception e) {
@@ -181,6 +205,7 @@ public class Tasky {
         scanner.close();
     }
 
+<<<<<<< HEAD
 /**
  * Helper methods for command parsing and output formatting.
  */
@@ -194,17 +219,21 @@ public class Tasky {
      * @throws TaskyException If the index is invalid or out of range.
      */
     private static int parseIndex(String input, int size) throws TaskyException {
+=======
+    private static int parseIndex(String s, int size) throws TaskyException {
+>>>>>>> 533a17a (Level-7: save tasks to disk)
         try {
-            int index = Integer.parseInt(input) - 1;
-            if (index < 0 || index >= size) {
+            int i = Integer.parseInt(s) - 1;
+            if (i < 0 || i >= size) {
                 throw new TaskyException("That task number does not exist.");
             }
-            return index;
+            return i;
         } catch (NumberFormatException e) {
             throw new TaskyException("Please enter a valid task number.");
         }
     }
 
+<<<<<<< HEAD
     /**
      * Prints a confirmation message after a task is added.
      *
@@ -212,6 +241,9 @@ public class Tasky {
      * @param count The total number of tasks after addition.
      */
     private static void printAddMessage(Task task, int count) {
+=======
+    private static void printAdd(Task task, int count) {
+>>>>>>> 533a17a (Level-7: save tasks to disk)
         System.out.println(LINE);
         System.out.println(" Got it. I've added this task:");
         System.out.println("   " + task);

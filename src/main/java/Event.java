@@ -2,8 +2,8 @@
  * Represents a task that occurs within a specific time period.
  */
 class Event extends Task {
-    protected String from;
-    protected String to;
+    private String from;
+    private String to;
 
     /**
      * Constructs an event task.
@@ -22,5 +22,10 @@ class Event extends Task {
     @Override
     public String toString() {
         return super.toString() + " (from: " + from + " to: " + to + ")";
+    }
+
+    @Override
+    public String toFileString() {
+        return super.toFileString() + " | " + from + " | " + to;
     }
 }
