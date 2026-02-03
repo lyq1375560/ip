@@ -1,3 +1,5 @@
+package tasky;
+
 enum TaskType {
     TODO("[T]"),
     DEADLINE("[D]"),
