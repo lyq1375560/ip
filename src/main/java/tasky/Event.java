@@ -1,6 +1,11 @@
+<<<<<<< HEAD:src/main/java/Event.java
 /**
  * Represents a task that occurs within a specific time period.
  */
+=======
+package tasky;
+
+>>>>>>> 3e560c7 (A-Packages: move classes into tasky package):src/main/java/tasky/Event.java
 class Event extends Task {
     private String from;
     private String to;

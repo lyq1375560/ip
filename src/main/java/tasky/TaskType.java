@@ -1,3 +1,4 @@
+<<<<<<< HEAD:src/main/java/TaskType.java
 <<<<<<< HEAD
 /**
  * Represents the type of a task managed by Tasky.
@@ -5,6 +6,10 @@
  */
 =======
 >>>>>>> 533a17a (Level-7: save tasks to disk)
+=======
+package tasky;
+
+>>>>>>> 3e560c7 (A-Packages: move classes into tasky package):src/main/java/tasky/TaskType.java
 enum TaskType {
     TODO("[T]"),
     DEADLINE("[D]"),

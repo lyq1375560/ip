@@ -1,7 +1,12 @@
+<<<<<<< HEAD:src/main/java/Task.java
 /**
  * Represents a task managed by the Tasky chatbot.
  * Each task has a description, completion status, and type.
  */
+=======
+package tasky;
+
+>>>>>>> 3e560c7 (A-Packages: move classes into tasky package):src/main/java/tasky/Task.java
 abstract class Task {
     protected String description;
     protected boolean isDone;

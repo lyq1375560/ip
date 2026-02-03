@@ -1,3 +1,4 @@
+<<<<<<< HEAD:src/main/java/Deadline.java
 <<<<<<< HEAD
 /**
  * Represents a task that must be completed by a specific deadline.
@@ -13,6 +14,10 @@ class Deadline extends Task {
      */
     public Deadline(String description, String by) {
 =======
+=======
+package tasky;
+
+>>>>>>> 3e560c7 (A-Packages: move classes into tasky package):src/main/java/tasky/Deadline.java
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
