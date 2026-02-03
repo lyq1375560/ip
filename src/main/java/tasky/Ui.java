@@ -1,3 +1,5 @@
+package tasky;
+
 import java.util.Scanner;
 
 public class Ui {
@@ -9,7 +11,7 @@ public class Ui {
 
     public void showWelcome() {
         System.out.println(LINE);
-        System.out.println(" Hello! I'm Tasky");
+        System.out.println(" Hello! I'm tasky.Tasky");
         System.out.println(" What can I do for you?");
         System.out.println(LINE);
     }
