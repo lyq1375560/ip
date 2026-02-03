@@ -145,6 +145,18 @@ public class Tasky {
                     continue;
                 }
 
+                // find
+                if (input.startsWith("find ")) {
+                    String keyword = input.substring(5);
+
+                    if (keyword.isBlank()) {
+                        throw new TaskyException("Please provide a keyword to search for.");
+                    }
+
+                    printFindResults(tasks, keyword);
+                    continue;
+                }
+
                 throw new TaskyException("I'm sorry, but I don't know what that means.");
 
             } catch (Exception e) {
@@ -178,6 +190,26 @@ public class Tasky {
         System.out.println(" Now you have " + count + " tasks in the list.");
         System.out.println(LINE);
     }
+
+    private static void printFindResults(ArrayList<Task> tasks, String keyword) {
+        System.out.println(LINE);
+        System.out.println(" Here are the matching tasks in your list:");
+
+        int count = 0;
+        for (int i = 0; i < tasks.size(); i++) {
+            if (tasks.get(i).description.contains(keyword)) {
+                System.out.println(" " + (i + 1) + "." + tasks.get(i));
+                count++;
+            }
+        }
+
+        if (count == 0) {
+            System.out.println(" No matching tasks found.");
+        }
+
+        System.out.println(LINE);
+    }
+
 }
 
 
