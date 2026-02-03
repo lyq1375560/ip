@@ -8,16 +8,15 @@ abstract class Task {
         this.isDone = false;
     }
 
-    public void markDone() {
-        isDone = true;
-    }
-
-    public void unmarkDone() {
-        isDone = false;
-    }
+    public void markDone() { isDone = true; }
+    public void unmarkDone() { isDone = false; }
 
     protected String getStatusIcon() {
         return isDone ? "[X]" : "[ ]";
+    }
+
+    public String toFileString() {
+        return type.name() + " | " + (isDone ? "1" : "0") + " | " + description;
     }
 
     @Override
