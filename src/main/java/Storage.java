@@ -1,5 +1,6 @@
 import java.io.*;
 import java.nio.file.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 <<<<<<< HEAD
@@ -160,13 +161,19 @@ public class Storage {
             Task task;
             if (type == TaskType.TODO) {
                 task = new Todo(description);
+
             } else if (type == TaskType.DEADLINE) {
-                task = new Deadline(description, parts[3]);
-            } else {
+                LocalDate by = LocalDate.parse(parts[3]);
+                task = new Deadline(description, by);
+
+            } else { // EVENT
                 task = new Event(description, parts[3], parts[4]);
             }
 
-            if (done) task.markDone();
+            if (done) {
+                task.markDone();
+            }
+
             return task;
 
         } catch (Exception e) {

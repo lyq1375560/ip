@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
  * Represents a task that must be completed by a specific deadline.
  */
@@ -11,6 +12,19 @@ class Deadline extends Task {
      * @param by Deadline information.
      */
     public Deadline(String description, String by) {
+=======
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+public class Deadline extends Task {
+
+    private static final DateTimeFormatter OUTPUT_FORMAT =
+            DateTimeFormatter.ofPattern("MMM dd yyyy");
+
+    private LocalDate by;
+
+    public Deadline(String description, LocalDate by) {
+>>>>>>> 8cec3f5 (Level-8: support dates for deadlines)
         super(description);
         this.by = by;
         this.type = TaskType.DEADLINE;
@@ -19,11 +33,14 @@ class Deadline extends Task {
 
     @Override
     public String toString() {
-        return super.toString() + " (by: " + by + ")";
+        return super.toString() + " (by: " + by.format(OUTPUT_FORMAT) + ")";
     }
 
     @Override
     public String toFileString() {
-        return super.toFileString() + " | " + by;
+        return TaskType.DEADLINE + " | "
+                + (isDone ? "1" : "0") + " | "
+                + description + " | "
+                + by;
     }
 }

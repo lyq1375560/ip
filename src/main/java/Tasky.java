@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 /**
  * Tasky is a command-line chatbot that helps users manage tasks.
@@ -122,6 +124,7 @@ public class Tasky {
                     if (input.equals("todo")) {
                         throw new TaskyException("The description of a todo cannot be empty.");
                     }
+
                     Task task = new Todo(input.substring(5));
                     tasks.add(task);
 <<<<<<< HEAD
@@ -137,11 +140,14 @@ public class Tasky {
                     continue;
                 }
 
+                // ===== Level-8 FIXED: deadline with LocalDate =====
                 if (input.startsWith("deadline")) {
                     if (!input.contains(" /by ")) {
-                        throw new TaskyException("A deadline must have a /by time.");
+                        throw new TaskyException("A deadline must have a /by date.");
                     }
+
                     String[] parts = input.substring(9).split(" /by ");
+<<<<<<< HEAD
                     Task task = new Deadline(parts[0], parts[1]);
                     tasks.add(task);
 <<<<<<< HEAD
@@ -155,12 +161,29 @@ public class Tasky {
                     printAdd(task, tasks.size());
 >>>>>>> 533a17a (Level-7: save tasks to disk)
                     continue;
+=======
+
+                    try {
+                        LocalDate byDate = LocalDate.parse(parts[1]);
+                        Task task = new Deadline(parts[0], byDate);
+                        tasks.add(task);
+                        storage.save(tasks);
+                        printAdd(task, tasks.size());
+                        continue;
+
+                    } catch (DateTimeParseException e) {
+                        throw new TaskyException(
+                                "Please use yyyy-MM-dd format for dates."
+                        );
+                    }
+>>>>>>> 8cec3f5 (Level-8: support dates for deadlines)
                 }
 
                 if (input.startsWith("event")) {
                     if (!input.contains(" /from ") || !input.contains(" /to ")) {
                         throw new TaskyException("An event must have /from and /to times.");
                     }
+
                     String[] parts = input.substring(6).split(" /from ");
                     String[] times = parts[1].split(" /to ");
                     Task task = new Event(parts[0], times[0], times[1]);
@@ -276,5 +299,6 @@ public class Tasky {
         System.out.println(LINE);
     }
 }
+
 
 
