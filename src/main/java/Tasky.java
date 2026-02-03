@@ -1,7 +1,4 @@
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 
 /**
  * Tasky is a command-line chatbot that helps users manage tasks.
@@ -10,11 +7,10 @@ import java.time.format.DateTimeParseException;
  */
 public class Tasky {
 
-    private static final String LINE =
-            "____________________________________________________________";
     private static final String DATA_DIR = "data";
     private static final String DATA_FILE = "data/tasky.txt";
 
+<<<<<<< HEAD
     /**
      * Runs the Tasky chatbot application.
      * Reads user commands from standard input and executes them
@@ -35,24 +31,38 @@ public class Tasky {
 =======
         ArrayList<Task> tasks = new ArrayList<>();
         Storage storage = new Storage(DATA_DIR, DATA_FILE);
+=======
+    private final Ui ui;
+    private final Storage storage;
+    private final TaskList tasks;
+>>>>>>> 0f2887f (A-MoreOOP: extract Ui, Parser, and TaskList classes)
 
-        // Load saved tasks
+    public Tasky() {
+        ui = new Ui();
+        storage = new Storage(DATA_DIR, DATA_FILE);
+
+        ArrayList<Task> loaded;
         try {
-            storage.load(tasks);
+            loaded = new ArrayList<>();
+            storage.load(loaded);
         } catch (TaskyException e) {
+<<<<<<< HEAD
             System.out.println("⚠ " + e.getMessage());
 >>>>>>> 533a17a (Level-7: save tasks to disk)
+=======
+            ui.showLoadingError(e.getMessage());
+            loaded = new ArrayList<>();
+>>>>>>> 0f2887f (A-MoreOOP: extract Ui, Parser, and TaskList classes)
         }
+        tasks = new TaskList(loaded);
+    }
 
-        System.out.println(LINE);
-        System.out.println(" Hello! I'm Tasky");
-        System.out.println(" What can I do for you?");
-        System.out.println(LINE);
+    public void run() {
+        ui.showWelcome();
 
         while (true) {
-            String input = scanner.nextLine();
-
             try {
+<<<<<<< HEAD
                 if (input.equals("bye")) {
                     System.out.println(LINE);
                     System.out.println(" Bye. Hope to see you again soon!");
@@ -272,6 +282,21 @@ public class Tasky {
         System.out.println("   " + task);
         System.out.println(" Now you have " + count + " tasks in the list.");
         System.out.println(LINE);
+=======
+                String input = ui.readCommand();
+                Parser.parse(input, tasks, ui, storage);
+            } catch (ExitException e) {
+                ui.showGoodbye();
+                break;
+            } catch (TaskyException e) {
+                ui.showError(e.getMessage());
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        new Tasky().run();
+>>>>>>> 0f2887f (A-MoreOOP: extract Ui, Parser, and TaskList classes)
     }
 
     /**
@@ -299,6 +324,3 @@ public class Tasky {
         System.out.println(LINE);
     }
 }
-
-
-
