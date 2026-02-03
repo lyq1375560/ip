@@ -1,2 +1,0 @@
-TODO | 0 | read book
-DEADLINE | 0 | return book | Sunday

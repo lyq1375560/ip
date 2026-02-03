@@ -1,2 +1,7 @@
+TODO | 1 | read book
 TODO | 0 | read book
-DEADLINE | 0 | return book | Sunday
+DEADLINE | 0 | return book | 2019-12-02
+TODO | 0 | read book
+DEADLINE | 0 | return book | 2019-12-02
+TODO | 0 | read book
+DEADLINE | 0 | return book | 2019-12-02
