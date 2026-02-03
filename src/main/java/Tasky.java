@@ -8,7 +8,14 @@ public class Tasky {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Task> tasks = new ArrayList<>();
+
+        // Level-7: load tasks from disk
+        ArrayList<Task> tasks;
+        try {
+            tasks = Storage.load();
+        } catch (Exception e) {
+            tasks = new ArrayList<>();
+        }
 
         // Greeting
         System.out.println(LINE);
@@ -45,6 +52,9 @@ public class Tasky {
                     Task task = tasks.get(index);
                     task.markDone();
 
+                    // save after modification
+                    Storage.save(tasks);
+
                     System.out.println(LINE);
                     System.out.println(" Nice! I've marked this task as done:");
                     System.out.println("   " + task);
@@ -58,6 +68,9 @@ public class Tasky {
                     Task task = tasks.get(index);
                     task.unmarkDone();
 
+                    // save after modification
+                    Storage.save(tasks);
+
                     System.out.println(LINE);
                     System.out.println(" OK, I've marked this task as not done yet:");
                     System.out.println("   " + task);
@@ -65,10 +78,13 @@ public class Tasky {
                     continue;
                 }
 
-                // 🔥 NEW: delete
+                // delete
                 if (input.startsWith("delete ")) {
                     int index = parseIndex(input.substring(7), tasks.size());
                     Task removed = tasks.remove(index);
+
+                    // save after modification
+                    Storage.save(tasks);
 
                     System.out.println(LINE);
                     System.out.println(" Noted. I've removed this task:");
@@ -86,6 +102,10 @@ public class Tasky {
 
                     Task task = new Todo(input.substring(5));
                     tasks.add(task);
+
+                    // save after modification
+                    Storage.save(tasks);
+
                     printAddMessage(task, tasks.size());
                     continue;
                 }
@@ -99,6 +119,10 @@ public class Tasky {
                     String[] parts = input.substring(9).split(" /by ");
                     Task task = new Deadline(parts[0], parts[1]);
                     tasks.add(task);
+
+                    // save after modification
+                    Storage.save(tasks);
+
                     printAddMessage(task, tasks.size());
                     continue;
                 }
@@ -113,14 +137,17 @@ public class Tasky {
                     String[] times = parts[1].split(" /to ");
                     Task task = new Event(parts[0], times[0], times[1]);
                     tasks.add(task);
+
+                    // save after modification
+                    Storage.save(tasks);
+
                     printAddMessage(task, tasks.size());
                     continue;
                 }
 
-                // unknown command
                 throw new TaskyException("I'm sorry, but I don't know what that means.");
 
-            } catch (TaskyException e) {
+            } catch (Exception e) {
                 System.out.println(LINE);
                 System.out.println(" OOPS!!! " + e.getMessage());
                 System.out.println(LINE);
@@ -130,7 +157,7 @@ public class Tasky {
         scanner.close();
     }
 
-    // ---------- Helper methods ----------
+    // ---------- helper methods ----------
 
     private static int parseIndex(String input, int size) throws TaskyException {
         try {
@@ -152,6 +179,7 @@ public class Tasky {
         System.out.println(LINE);
     }
 }
+
 
 enum TaskType {
     TODO("[T]"),
