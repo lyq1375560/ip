@@ -1,5 +1,7 @@
 package tasky;
 
+import java.util.ArrayList;
+
 /**
  * Parses user input commands and executes the corresponding actions.
  * <p>
@@ -110,6 +112,23 @@ public class Parser {
             tasks.add(task);
             storage.save(tasks.getAll());
             printAdd(ui, task, tasks.size());
+            return;
+        }
+
+        // Find command
+        if (input.startsWith("find ")) {
+            String keyword = input.substring(5).trim();
+
+            if (keyword.isEmpty()) {
+                throw new TaskyException("Please provide a keyword to search for.");
+            }
+
+            ArrayList<Task> matches = tasks.findByKeyword(keyword);
+
+            ui.showMessage(" Here are the matching tasks in your list:");
+            for (int i = 0; i < matches.size(); i++) {
+                ui.showMessage(" " + (i + 1) + "." + matches.get(i));
+            }
             return;
         }
 
