@@ -5,6 +5,7 @@ import java.nio.file.*;
 import java.util.ArrayList;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 /**
  * Handles loading and saving Tasky tasks to disk.
  * Tasks are stored in a human-editable text file.
@@ -105,16 +106,41 @@ public class Storage {
         }
         return task;
 =======
+=======
+/**
+ * Handles loading tasks from and saving tasks to the hard disk.
+ * <p>
+ * This class is responsible for persistent storage of tasks
+ * using a plain text file in a human-readable format.
+ */
+>>>>>>> 640c0ac (Add JavaDoc comments to core classes)
 public class Storage {
 
+    /** Directory used to store the data file. */
     private final String dataDir;
+
+    /** File path used to persist task data. */
     private final String dataFile;
 
+    /**
+     * Creates a storage handler with the specified directory and file path.
+     *
+     * @param dataDir Directory used to store task data
+     * @param dataFile File path of the task data file
+     */
     public Storage(String dataDir, String dataFile) {
         this.dataDir = dataDir;
         this.dataFile = dataFile;
     }
 
+    /**
+     * Loads tasks from the data file.
+     * <p>
+     * If the data directory or file does not exist, they will be created.
+     *
+     * @return A list of tasks loaded from the file
+     * @throws TaskyException If loading fails due to I/O errors or corrupted data
+     */
     public ArrayList<Task> load() throws TaskyException {
         ArrayList<Task> tasks = new ArrayList<>();
 
@@ -141,6 +167,12 @@ public class Storage {
         }
     }
 
+    /**
+     * Saves the given list of tasks to the data file.
+     *
+     * @param tasks The list of tasks to be saved
+     * @throws TaskyException If saving fails due to I/O errors
+     */
     public void save(ArrayList<Task> tasks) throws TaskyException {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(dataFile));
@@ -154,6 +186,13 @@ public class Storage {
         }
     }
 
+    /**
+     * Parses a single line from the data file into a {@link Task} object.
+     *
+     * @param line A line read from the data file
+     * @return The task represented by the line
+     * @throws TaskyException If the line format is invalid or corrupted
+     */
     private Task parseTask(String line) throws TaskyException {
         try {
             String[] parts = line.split(" \\| ");
