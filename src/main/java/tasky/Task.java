@@ -1,6 +1,7 @@
 package tasky;
 
-abstract class Task {
+public abstract class Task {
+
     protected String description;
     protected boolean isDone;
     protected TaskType type;
@@ -10,8 +11,13 @@ abstract class Task {
         this.isDone = false;
     }
 
-    public void markDone() { isDone = true; }
-    public void unmarkDone() { isDone = false; }
+    public void markDone() {
+        isDone = true;
+    }
+
+    public void unmarkDone() {
+        isDone = false;
+    }
 
     protected String getStatusIcon() {
         return isDone ? "[X]" : "[ ]";

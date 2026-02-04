@@ -1,6 +1,6 @@
 package tasky;
 
-enum TaskType {
+public enum TaskType {
     TODO("[T]"),
     DEADLINE("[D]"),
     EVENT("[E]");

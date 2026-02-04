@@ -1,48 +1,46 @@
 package tasky;
 
-import java.util.ArrayList;
-
 public class Tasky {
 
-    private static final String DATA_DIR = "data";
-    private static final String DATA_FILE = "data/tasky.txt";
-
-    private final Ui ui;
     private final Storage storage;
     private final TaskList tasks;
+    private final Ui ui;
 
-    public Tasky() {
+    public Tasky(String dataDir, String dataFile) {
         ui = new Ui();
-        storage = new Storage(DATA_DIR, DATA_FILE);
+        storage = new Storage(dataDir, dataFile);
 
-        ArrayList<Task> loaded;
+        TaskList loadedTasks;
         try {
-            loaded = new ArrayList<>();
-            storage.load(loaded);
+            loadedTasks = new TaskList(storage.load());
         } catch (TaskyException e) {
-            ui.showLoadingError(e.getMessage());
-            loaded = new ArrayList<>();
+            ui.showError(e.getMessage());
+            loadedTasks = new TaskList();
         }
-        tasks = new TaskList(loaded);
+        tasks = loadedTasks;
     }
 
     public void run() {
         ui.showWelcome();
 
-        while (true) {
+        boolean isExit = false;
+        while (!isExit) {
             try {
                 String input = ui.readCommand();
-                Parser.parse(input, tasks, ui, storage);
-            } catch (ExitException e) {
-                ui.showGoodbye();
-                break;
+                ui.showLine();
+
+                Parser.parseAndExecute(input, tasks, ui, storage);
+
+                isExit = input.equals("bye");
             } catch (TaskyException e) {
                 ui.showError(e.getMessage());
+            } finally {
+                ui.showLine();
             }
         }
     }
 
     public static void main(String[] args) {
-        new Tasky().run();
+        new Tasky("data", "data/tasky.txt").run();
     }
 }

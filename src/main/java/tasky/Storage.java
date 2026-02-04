@@ -2,7 +2,6 @@ package tasky;
 
 import java.io.*;
 import java.nio.file.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Storage {
@@ -15,14 +14,16 @@ public class Storage {
         this.dataFile = dataFile;
     }
 
-    public void load(ArrayList<Task> tasks) throws TaskyException {
+    public ArrayList<Task> load() throws TaskyException {
+        ArrayList<Task> tasks = new ArrayList<>();
+
         try {
             Files.createDirectories(Paths.get(dataDir));
-
             File file = new File(dataFile);
+
             if (!file.exists()) {
                 file.createNewFile();
-                return;
+                return tasks;
             }
 
             BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -31,8 +32,9 @@ public class Storage {
             while ((line = reader.readLine()) != null) {
                 tasks.add(parseTask(line));
             }
-
             reader.close();
+            return tasks;
+
         } catch (IOException e) {
             throw new TaskyException("Failed to load saved tasks.");
         }
@@ -54,7 +56,6 @@ public class Storage {
     private Task parseTask(String line) throws TaskyException {
         try {
             String[] parts = line.split(" \\| ");
-
             TaskType type = TaskType.valueOf(parts[0]);
             boolean done = parts[1].equals("1");
             String description = parts[2];
@@ -62,19 +63,15 @@ public class Storage {
             Task task;
             if (type == TaskType.TODO) {
                 task = new Todo(description);
-
             } else if (type == TaskType.DEADLINE) {
-                LocalDate by = LocalDate.parse(parts[3]);
-                task = new Deadline(description, by);
-
-            } else { // EVENT
+                task = new Deadline(description, parts[3]);
+            } else {
                 task = new Event(description, parts[3], parts[4]);
             }
 
             if (done) {
                 task.markDone();
             }
-
             return task;
 
         } catch (Exception e) {
