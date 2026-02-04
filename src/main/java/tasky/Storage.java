@@ -1,7 +1,13 @@
 package tasky;
 
-import java.io.*;
-import java.nio.file.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 <<<<<<< HEAD
@@ -135,8 +141,6 @@ public class Storage {
 
     /**
      * Loads tasks from the data file.
-     * <p>
-     * If the data directory or file does not exist, they will be created.
      *
      * @return A list of tasks loaded from the file
      * @throws TaskyException If loading fails due to I/O errors or corrupted data
@@ -153,13 +157,12 @@ public class Storage {
                 return tasks;
             }
 
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-                tasks.add(parseTask(line));
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    tasks.add(parseTask(line));
+                }
             }
-            reader.close();
             return tasks;
 
         } catch (IOException e) {
@@ -174,13 +177,11 @@ public class Storage {
      * @throws TaskyException If saving fails due to I/O errors
      */
     public void save(ArrayList<Task> tasks) throws TaskyException {
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(dataFile));
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(dataFile))) {
             for (Task task : tasks) {
                 writer.write(task.toFileString());
                 writer.newLine();
             }
-            writer.close();
         } catch (IOException e) {
             throw new TaskyException("Failed to save tasks.");
         }
