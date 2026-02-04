@@ -9,8 +9,12 @@
 =======
 package tasky;
 
+<<<<<<< HEAD
 >>>>>>> 3e560c7 (A-Packages: move classes into tasky package):src/main/java/tasky/TaskType.java
 enum TaskType {
+=======
+public enum TaskType {
+>>>>>>> af965df (Add Gradle build support)
     TODO("[T]"),
     DEADLINE("[D]"),
     EVENT("[E]");

@@ -1,5 +1,6 @@
 package tasky;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 
 /**
@@ -38,16 +39,23 @@ public class Tasky {
     private final Storage storage;
     private final TaskList tasks;
 >>>>>>> 0f2887f (A-MoreOOP: extract Ui, Parser, and TaskList classes)
+=======
+public class Tasky {
 
-    public Tasky() {
+    private final Storage storage;
+    private final TaskList tasks;
+    private final Ui ui;
+>>>>>>> af965df (Add Gradle build support)
+
+    public Tasky(String dataDir, String dataFile) {
         ui = new Ui();
-        storage = new Storage(DATA_DIR, DATA_FILE);
+        storage = new Storage(dataDir, dataFile);
 
-        ArrayList<Task> loaded;
+        TaskList loadedTasks;
         try {
-            loaded = new ArrayList<>();
-            storage.load(loaded);
+            loadedTasks = new TaskList(storage.load());
         } catch (TaskyException e) {
+<<<<<<< HEAD
 <<<<<<< HEAD
             System.out.println("⚠ " + e.getMessage());
 >>>>>>> 533a17a (Level-7: save tasks to disk)
@@ -55,14 +63,19 @@ public class Tasky {
             ui.showLoadingError(e.getMessage());
             loaded = new ArrayList<>();
 >>>>>>> 0f2887f (A-MoreOOP: extract Ui, Parser, and TaskList classes)
+=======
+            ui.showError(e.getMessage());
+            loadedTasks = new TaskList();
+>>>>>>> af965df (Add Gradle build support)
         }
-        tasks = new TaskList(loaded);
+        tasks = loadedTasks;
     }
 
     public void run() {
         ui.showWelcome();
 
-        while (true) {
+        boolean isExit = false;
+        while (!isExit) {
             try {
 <<<<<<< HEAD
                 if (input.equals("bye")) {
@@ -286,17 +299,21 @@ public class Tasky {
         System.out.println(LINE);
 =======
                 String input = ui.readCommand();
-                Parser.parse(input, tasks, ui, storage);
-            } catch (ExitException e) {
-                ui.showGoodbye();
-                break;
+                ui.showLine();
+
+                Parser.parseAndExecute(input, tasks, ui, storage);
+
+                isExit = input.equals("bye");
             } catch (TaskyException e) {
                 ui.showError(e.getMessage());
+            } finally {
+                ui.showLine();
             }
         }
     }
 
     public static void main(String[] args) {
+<<<<<<< HEAD
         new Tasky().run();
 >>>>>>> 0f2887f (A-MoreOOP: extract Ui, Parser, and TaskList classes)
     }
@@ -324,5 +341,8 @@ public class Tasky {
         }
 
         System.out.println(LINE);
+=======
+        new Tasky("data", "data/tasky.txt").run();
+>>>>>>> af965df (Add Gradle build support)
     }
 }

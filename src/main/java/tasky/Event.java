@@ -5,10 +5,17 @@
 =======
 package tasky;
 
+<<<<<<< HEAD
 >>>>>>> 3e560c7 (A-Packages: move classes into tasky package):src/main/java/tasky/Event.java
 class Event extends Task {
     private String from;
     private String to;
+=======
+public class Event extends Task {
+
+    private final String from;
+    private final String to;
+>>>>>>> af965df (Add Gradle build support)
 
     /**
      * Constructs an event task.

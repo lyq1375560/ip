@@ -6,8 +6,13 @@
 =======
 package tasky;
 
+<<<<<<< HEAD
 >>>>>>> 3e560c7 (A-Packages: move classes into tasky package):src/main/java/tasky/Task.java
 abstract class Task {
+=======
+public abstract class Task {
+
+>>>>>>> af965df (Add Gradle build support)
     protected String description;
     protected boolean isDone;
     protected TaskType type;
@@ -23,13 +28,17 @@ abstract class Task {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     /**
      * Marks this task as completed.
      */
+=======
+>>>>>>> af965df (Add Gradle build support)
     public void markDone() {
         isDone = true;
     }
 
+<<<<<<< HEAD
     /**
      * Marks this task as not completed.
      */
@@ -40,6 +49,11 @@ abstract class Task {
     public void markDone() { isDone = true; }
     public void unmarkDone() { isDone = false; }
 >>>>>>> 533a17a (Level-7: save tasks to disk)
+=======
+    public void unmarkDone() {
+        isDone = false;
+    }
+>>>>>>> af965df (Add Gradle build support)
 
     protected String getStatusIcon() {
         return isDone ? "[X]" : "[ ]";
