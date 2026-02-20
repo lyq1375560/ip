@@ -8,9 +8,6 @@ import java.time.format.DateTimeFormatter;
  */
 public class Deadline extends Task {
 
-    /** Deadline date of the task. */
-    private final LocalDate by;
-
     /** Date format used for parsing input dates. */
     private static final DateTimeFormatter INPUT =
             DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -18,6 +15,9 @@ public class Deadline extends Task {
     /** Date format used for displaying dates to the user. */
     private static final DateTimeFormatter OUTPUT =
             DateTimeFormatter.ofPattern("MMM dd yyyy");
+
+    /** Deadline date of the task. */
+    private final LocalDate by;
 
     /**
      * Creates a deadline task with the given description and date.
