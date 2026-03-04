@@ -69,6 +69,23 @@ public class Tasky {
         }
     }
 
+    public String getResponse(String input) {
+
+        try {
+
+            Parser.parseAndExecute(input, tasks, ui, storage);
+
+            if (input.equals("bye")) {
+                return "Bye. Hope to see you again soon!";
+            }
+
+        } catch (TaskyException e) {
+            ui.showError(e.getMessage());
+        }
+
+        return ui.getResponse();
+    }
+
     /**
      * Launches the Tasky application.
      *
