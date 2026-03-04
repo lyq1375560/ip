@@ -1,6 +1,7 @@
 package tasky;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
  * Represents a list of tasks in the Tasky application.
@@ -85,13 +86,9 @@ public class TaskList {
      * @return List of matching tasks
      */
     public ArrayList<Task> findByKeyword(String keyword) {
-        ArrayList<Task> matches = new ArrayList<>();
 
-        for (Task task : tasks) {
-            if (task.description.contains(keyword)) {
-                matches.add(task);
-            }
-        }
-        return matches;
+        return tasks.stream()
+                .filter(task -> task.description.contains(keyword))
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 }
