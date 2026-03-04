@@ -76,6 +76,11 @@ public class Parser {
             return;
         }
 
+        if (input.equals("help")) {
+            handleHelp(ui);
+            return;
+        }
+
         throw new TaskyException("I'm sorry, but I don't know what that means.");
     }
 
@@ -267,6 +272,45 @@ public class Parser {
         }
     }
 
+    /**
+     * Displays help information about available commands.
+     *
+     * @param ui User interface used to display messages
+     */
+    private static void handleHelp(Ui ui) {
+
+        ui.showMessage(
+                " Here are the commands you can use:",
+                "",
+                " list",
+                "   Show all tasks",
+                "",
+                " todo <description>",
+                "   Add a todo task",
+                "",
+                " deadline <description> /by <yyyy-mm-dd>",
+                "   Add a deadline task",
+                "",
+                " event <description> /from <time> /to <time>",
+                "   Add an event task",
+                "",
+                " mark <task number>",
+                "   Mark a task as done",
+                "",
+                " unmark <task number>",
+                "   Mark a task as not done",
+                "",
+                " delete <task number>",
+                "   Delete a task",
+                "",
+                " find <keyword>",
+                "   Find tasks containing the keyword",
+                "",
+                " bye",
+                "   Exit Tasky"
+        );
+    }
+    
     /**
      * Saves the task list to storage.
      */
