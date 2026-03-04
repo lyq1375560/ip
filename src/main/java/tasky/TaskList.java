@@ -90,10 +90,13 @@ public class TaskList {
         ArrayList<Task> matches = new ArrayList<>();
 
         for (Task task : tasks) {
-            if (task.description.contains(keyword)) {
+            String description = task.getDescription();
+
+            if (description.contains(keyword)) {
                 matches.add(task);
             }
         }
+
         return matches;
     }
 }
