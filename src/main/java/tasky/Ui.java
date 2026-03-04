@@ -17,6 +17,8 @@ public class Ui {
     /** Scanner used to read user input from standard input. */
     private final Scanner scanner = new Scanner(System.in);
 
+    private final StringBuilder response = new StringBuilder();
+
     /**
      * Displays the welcome message shown when the application starts.
      */
@@ -49,7 +51,7 @@ public class Ui {
      * @param message Message to be shown
      */
     public void showMessage(String message) {
-        System.out.println(message);
+        response.append(message).append("\n");
     }
 
     /**
@@ -58,6 +60,15 @@ public class Ui {
      * @param message Error description
      */
     public void showError(String message) {
-        System.out.println(" OOPS!!! " + message);
+        response.append("OOPS!!! ").append(message).append("\n");
+    }
+
+    /**
+     * Returns the accumulated response and clears the buffer.
+     */
+    public String getResponse() {
+        String output = response.toString();
+        response.setLength(0);
+        return output;
     }
 }
