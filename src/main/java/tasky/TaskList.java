@@ -89,8 +89,20 @@ public class TaskList {
      */
     public ArrayList<Task> findByKeyword(String keyword) {
 
+<<<<<<< HEAD
         return tasks.stream()
                 .filter(task -> task.description.contains(keyword))
                 .collect(Collectors.toCollection(ArrayList::new));
+=======
+        for (Task task : tasks) {
+            String description = task.getDescription();
+
+            if (description.contains(keyword)) {
+                matches.add(task);
+            }
+        }
+
+        return matches;
+>>>>>>> master
     }
 }

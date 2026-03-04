@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * {@link TaskList}, {@link Ui}, and {@link Storage}.
  */
 public class Parser {
-
+    
     /**
      * Parses the user input and executes the corresponding command.
      *
@@ -28,122 +28,60 @@ public class Parser {
     ) throws TaskyException {
 
         assert input != null : "User input should not be null";
+<<<<<<< HEAD
+
+=======
         assert tasks != null : "TaskList should not be null";
         assert ui != null : "Ui should not be null";
         assert storage != null : "Storage should not be null";
 
         // Exit command
+>>>>>>> master
         if (input.equals("bye")) {
-            ui.showMessage(" Bye. Hope to see you again soon!");
+            handleBye(ui);
             return;
         }
 
-        // List command
         if (input.equals("list")) {
-            ui.showMessage(" Here are the tasks in your list:");
-            for (int i = 0; i < tasks.size(); i++) {
-                ui.showMessage(" " + (i + 1) + "." + tasks.get(i));
-            }
+            handleList(tasks, ui);
             return;
         }
 
-        // Mark command
         if (input.startsWith("mark ")) {
-            int index = parseIndex(input.substring(5), tasks.size());
-            tasks.get(index).markDone();
-            storage.save(tasks.getAll());
-
-            ui.showMessage(
-                    " Nice! I've marked this task as done:",
-                    "   " + tasks.get(index)
-            );
+            handleMark(input, tasks, ui, storage);
             return;
         }
 
-        // Unmark command
         if (input.startsWith("unmark ")) {
-            int index = parseIndex(input.substring(7), tasks.size());
-            tasks.get(index).unmarkDone();
-            storage.save(tasks.getAll());
-
-            ui.showMessage(
-                    " OK, I've marked this task as not done yet:",
-                    "   " + tasks.get(index)
-            );
+            handleUnmark(input, tasks, ui, storage);
             return;
         }
 
-        // Delete command
         if (input.startsWith("delete ")) {
-            int index = parseIndex(input.substring(7), tasks.size());
-            Task removed = tasks.remove(index);
-            storage.save(tasks.getAll());
-
-            ui.showMessage(
-                    " Noted. I've removed this task:",
-                    "   " + removed,
-                    " Now you have " + tasks.size() + " tasks in the list."
-            );
+            handleDelete(input, tasks, ui, storage);
             return;
         }
 
-        // Todo command
         if (input.startsWith("todo")) {
-            if (input.equals("todo")) {
-                throw new TaskyException("The description of a todo cannot be empty.");
-            }
-            Task task = new Todo(input.substring(5));
-            tasks.add(task);
-            storage.save(tasks.getAll());
-            printAdd(ui, task, tasks.size());
+            handleTodo(input, tasks, ui, storage);
             return;
         }
 
-        // Deadline command
         if (input.startsWith("deadline")) {
-            if (!input.contains(" /by ")) {
-                throw new TaskyException("A deadline must have a /by date.");
-            }
-            String[] parts = input.substring(9).split(" /by ");
-            Task task = new Deadline(parts[0], parts[1]);
-            tasks.add(task);
-            storage.save(tasks.getAll());
-            printAdd(ui, task, tasks.size());
+            handleDeadline(input, tasks, ui, storage);
             return;
         }
 
-        // Event command
         if (input.startsWith("event")) {
-            if (!input.contains(" /from ") || !input.contains(" /to ")) {
-                throw new TaskyException("An event must have /from and /to dates.");
-            }
-            String[] parts = input.substring(6).split(" /from ");
-            String[] times = parts[1].split(" /to ");
-            Task task = new Event(parts[0], times[0], times[1]);
-            tasks.add(task);
-            storage.save(tasks.getAll());
-            printAdd(ui, task, tasks.size());
+            handleEvent(input, tasks, ui, storage);
             return;
         }
 
-        // Find command
         if (input.startsWith("find ")) {
-            String keyword = input.substring(5).trim();
-
-            if (keyword.isEmpty()) {
-                throw new TaskyException("Please provide a keyword to search for.");
-            }
-
-            ArrayList<Task> matches = tasks.findByKeyword(keyword);
-
-            ui.showMessage(" Here are the matching tasks in your list:");
-            for (int i = 0; i < matches.size(); i++) {
-                ui.showMessage(" " + (i + 1) + "." + matches.get(i));
-            }
+            handleFind(input, tasks, ui);
             return;
         }
 
-        // Unknown command
         throw new TaskyException("I'm sorry, but I don't know what that means.");
     }
 
@@ -180,5 +118,193 @@ public class Parser {
                 "   " + task,
                 " Now you have " + count + " tasks in the list."
         );
+    }
+
+    /**
+     * Handles the bye command.
+     */
+    private static void handleBye(Ui ui) {
+        ui.showMessage(" Bye. Hope to see you again soon!");
+    }
+
+    /**
+     * Handles the list command.
+     */
+    private static void handleList(TaskList tasks, Ui ui) {
+
+        ui.showMessage(" Here are the tasks in your list:");
+
+        for (int i = 0; i < tasks.size(); i++) {
+            ui.showMessage(" " + (i + 1) + "." + tasks.get(i));
+        }
+    }
+
+    /**
+     * Handles the mark command.
+     */
+    private static void handleMark(
+            String input,
+            TaskList tasks,
+            Ui ui,
+            Storage storage
+    ) throws TaskyException {
+
+        int index = parseIndex(input.substring(5), tasks.size());
+
+        tasks.get(index).markDone();
+        saveTasks(storage, tasks);
+
+        ui.showMessage(
+                " Nice! I've marked this task as done:",
+                "   " + tasks.get(index)
+        );
+    }
+
+    /**
+     * Handles the unmark command.
+     */
+    private static void handleUnmark(
+            String input,
+            TaskList tasks,
+            Ui ui,
+            Storage storage
+    ) throws TaskyException {
+
+        int index = parseIndex(input.substring(7), tasks.size());
+
+        tasks.get(index).unmarkDone();
+        saveTasks(storage, tasks);
+
+        ui.showMessage(
+                " OK, I've marked this task as not done yet:",
+                "   " + tasks.get(index)
+        );
+    }
+
+    /**
+     * Handles the delete command.
+     */
+    private static void handleDelete(
+            String input,
+            TaskList tasks,
+            Ui ui,
+            Storage storage
+    ) throws TaskyException {
+
+        int index = parseIndex(input.substring(7), tasks.size());
+
+        Task removed = tasks.remove(index);
+
+        saveTasks(storage, tasks);
+
+        ui.showMessage(
+                " Noted. I've removed this task:",
+                "   " + removed,
+                " Now you have " + tasks.size() + " tasks in the list."
+        );
+    }
+
+    /**
+     * Handles the todo command.
+     */
+    private static void handleTodo(
+            String input,
+            TaskList tasks,
+            Ui ui,
+            Storage storage
+    ) throws TaskyException {
+
+        if (input.equals("todo")) {
+            throw new TaskyException("The description of a todo cannot be empty.");
+        }
+
+        Task task = new Todo(input.substring(5));
+
+        tasks.add(task);
+        saveTasks(storage, tasks);
+
+        printAdd(ui, task, tasks.size());
+    }
+
+    /**
+     * Handles the deadline command.
+     */
+    private static void handleDeadline(
+            String input,
+            TaskList tasks,
+            Ui ui,
+            Storage storage
+    ) throws TaskyException {
+
+        if (!input.contains(" /by ")) {
+            throw new TaskyException("A deadline must have a /by date.");
+        }
+
+        String[] parts = input.substring(9).split(" /by ");
+
+        Task task = new Deadline(parts[0], parts[1]);
+
+        tasks.add(task);
+        saveTasks(storage, tasks);
+
+        printAdd(ui, task, tasks.size());
+    }
+
+    /**
+     * Handles the event command.
+     */
+    private static void handleEvent(
+            String input,
+            TaskList tasks,
+            Ui ui,
+            Storage storage
+    ) throws TaskyException {
+
+        if (!input.contains(" /from ") || !input.contains(" /to ")) {
+            throw new TaskyException("An event must have /from and /to dates.");
+        }
+
+        String[] parts = input.substring(6).split(" /from ");
+        String[] times = parts[1].split(" /to ");
+
+        Task task = new Event(parts[0], times[0], times[1]);
+
+        tasks.add(task);
+        saveTasks(storage, tasks);
+
+        printAdd(ui, task, tasks.size());
+    }
+
+    /**
+     * Handles the find command.
+     */
+    private static void handleFind(
+            String input,
+            TaskList tasks,
+            Ui ui
+    ) throws TaskyException {
+
+        String keyword = input.substring(5).trim();
+
+        if (keyword.isEmpty()) {
+            throw new TaskyException("Please provide a keyword to search for.");
+        }
+
+        ArrayList<Task> matches = tasks.findByKeyword(keyword);
+
+        ui.showMessage(" Here are the matching tasks in your list:");
+
+        for (int i = 0; i < matches.size(); i++) {
+            ui.showMessage(" " + (i + 1) + "." + matches.get(i));
+        }
+    }
+
+    /**
+     * Saves the task list to storage.
+     */
+    private static void saveTasks(Storage storage, TaskList tasks)
+            throws TaskyException {
+
+        storage.save(tasks.getAll());
     }
 }
