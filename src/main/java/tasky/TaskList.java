@@ -87,9 +87,11 @@ public class TaskList {
      * @param keyword Keyword to search for
      * @return List of matching tasks
      */
+    // AI-Assisted improvement: make keyword search case-insensitive
     public ArrayList<Task> findByKeyword(String keyword) {
         return tasks.stream()
-                .filter(task -> task.description.contains(keyword))
+                .filter(task -> task.getDescription().toLowerCase()
+                        .contains(keyword.toLowerCase()))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 }

@@ -25,10 +25,17 @@ public class Deadline extends Task {
      * @param description Description of the task
      * @param by Deadline date in yyyy-MM-dd format
      */
-    public Deadline(String description, String by) {
+    public Deadline(String description, String by) throws TaskyException {
         super(description);
         assert by != null : "Deadline date should not be null";
-        this.by = LocalDate.parse(by, INPUT);
+
+        // AI-Assisted improvement: make Deadline parsing safer
+        try {
+            this.by = LocalDate.parse(by, INPUT);
+        } catch (Exception e) {
+            throw new TaskyException("Invalid date format. Use yyyy-MM-dd.");
+        }
+
         this.type = TaskType.DEADLINE;
     }
 

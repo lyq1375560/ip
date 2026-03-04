@@ -26,62 +26,61 @@ public class Parser {
             Ui ui,
             Storage storage
     ) throws TaskyException {
+
         assert input != null : "User input should not be null";
         assert tasks != null : "TaskList should not be null";
         assert ui != null : "Ui should not be null";
         assert storage != null : "Storage should not be null";
 
-        if (input.equals("bye")) {
+        // AI-Assisted improvement: better Parser structure
+        String[] parts = input.split(" ", 2);
+        String command = parts[0];
+
+        switch (command) {
+
+        case "bye":
             handleBye(ui);
             return;
-        }
 
-        if (input.equals("list")) {
+        case "list":
             handleList(tasks, ui);
             return;
-        }
 
-        if (input.startsWith("mark ")) {
+        case "mark":
             handleMark(input, tasks, ui, storage);
             return;
-        }
 
-        if (input.startsWith("unmark ")) {
+        case "unmark":
             handleUnmark(input, tasks, ui, storage);
             return;
-        }
 
-        if (input.startsWith("delete ")) {
+        case "delete":
             handleDelete(input, tasks, ui, storage);
             return;
-        }
 
-        if (input.startsWith("todo")) {
+        case "todo":
             handleTodo(input, tasks, ui, storage);
             return;
-        }
 
-        if (input.startsWith("deadline")) {
+        case "deadline":
             handleDeadline(input, tasks, ui, storage);
             return;
-        }
 
-        if (input.startsWith("event")) {
+        case "event":
             handleEvent(input, tasks, ui, storage);
             return;
-        }
 
-        if (input.startsWith("find ")) {
+        case "find":
             handleFind(input, tasks, ui);
             return;
-        }
 
-        if (input.equals("help")) {
+        case "help":
             handleHelp(ui);
             return;
-        }
 
-        throw new TaskyException("I'm sorry, but I don't know what that means.");
+        default:
+            throw new TaskyException("I'm sorry, but I don't know what that means.");
+        }
     }
 
     /**
@@ -129,7 +128,13 @@ public class Parser {
     /**
      * Handles the list command.
      */
+
     private static void handleList(TaskList tasks, Ui ui) {
+        // AI-Assisted improvement: Empty list handling
+        if (tasks.size() == 0) {
+            ui.showMessage(" Your task list is empty.");
+            return;
+        }
         ui.showMessage(" Here are the tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
             ui.showMessage(" " + (i + 1) + "." + tasks.get(i));
