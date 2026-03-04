@@ -1,0 +1,3 @@
+TODO | 0 | read CS2103 textbook
+DEADLINE | 0 | finish tutorial | 2026-03-12
+EVENT | 0 | project meeting | 2pm | 4pm

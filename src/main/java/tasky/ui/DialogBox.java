@@ -20,13 +20,27 @@ public class DialogBox extends HBox {
     private DialogBox(String message, Image img) {
 
         text = new Label(message);
+        text.setStyle(
+                "-fx-background-color: #E3F2FD;"
+                        + "-fx-padding: 10;"
+                        + "-fx-background-radius: 10;"
+        );
         displayPicture = new ImageView(img);
 
+        // allow text wrapping
         text.setWrapText(true);
 
+        // make message bubble expand with window
+        text.setMaxWidth(500);
+
+        // avatar size
         displayPicture.setFitWidth(50);
         displayPicture.setFitHeight(50);
 
+        // spacing between avatar and message
+        this.setSpacing(10);
+
+        // user messages appear on the right
         this.setAlignment(Pos.TOP_RIGHT);
 
         getChildren().addAll(text, displayPicture);
@@ -38,6 +52,12 @@ public class DialogBox extends HBox {
     private void flip() {
 
         setAlignment(Pos.TOP_LEFT);
+
+        text.setStyle(
+                "-fx-background-color: #F1F1F1;"
+                        + "-fx-padding: 10;"
+                        + "-fx-background-radius: 10;"
+        );
 
         ObservableList<Node> tmp =
                 FXCollections.observableArrayList(getChildren());

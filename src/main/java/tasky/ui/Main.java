@@ -2,8 +2,8 @@ package tasky.ui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import tasky.Tasky;
 
@@ -22,8 +22,9 @@ public class Main extends Application {
             FXMLLoader loader = new FXMLLoader(
                     Main.class.getResource("/view/MainWindow.fxml")
             );
+            
+            Parent root = loader.load();
 
-            AnchorPane root = loader.load();
             Scene scene = new Scene(root);
 
             stage.setTitle("Tasky");
