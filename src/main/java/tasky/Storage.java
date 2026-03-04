@@ -93,16 +93,20 @@ public class Storage {
     private Task parseTask(String line) throws TaskyException {
         try {
             String[] parts = line.split(" \\| ");
+            assert parts.length >= 3 : "Invalid task format in storage file";
             TaskType type = TaskType.valueOf(parts[0]);
             boolean done = parts[1].equals("1");
             String description = parts[2];
 
             Task task;
             if (type == TaskType.TODO) {
+                assert parts.length == 3 : "Invalid TODO task format";
                 task = new Todo(description);
             } else if (type == TaskType.DEADLINE) {
+                assert parts.length == 4 : "Invalid DEADLINE task format";
                 task = new Deadline(description, parts[3]);
             } else {
+                assert parts.length == 5 : "Invalid EVENT task format";
                 task = new Event(description, parts[3], parts[4]);
             }
 

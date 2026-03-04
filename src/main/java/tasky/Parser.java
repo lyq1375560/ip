@@ -28,7 +28,15 @@ public class Parser {
     ) throws TaskyException {
 
         assert input != null : "User input should not be null";
+<<<<<<< HEAD
 
+=======
+        assert tasks != null : "TaskList should not be null";
+        assert ui != null : "Ui should not be null";
+        assert storage != null : "Storage should not be null";
+
+        // Exit command
+>>>>>>> master
         if (input.equals("bye")) {
             handleBye(ui);
             return;
