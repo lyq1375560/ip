@@ -48,8 +48,10 @@ public class Parser {
             tasks.get(index).markDone();
             storage.save(tasks.getAll());
 
-            ui.showMessage(" Nice! I've marked this task as done:");
-            ui.showMessage("   " + tasks.get(index));
+            ui.showMessage(
+                    " Nice! I've marked this task as done:",
+                    "   " + tasks.get(index)
+            );
             return;
         }
 
@@ -59,8 +61,10 @@ public class Parser {
             tasks.get(index).unmarkDone();
             storage.save(tasks.getAll());
 
-            ui.showMessage(" OK, I've marked this task as not done yet:");
-            ui.showMessage("   " + tasks.get(index));
+            ui.showMessage(
+                    " OK, I've marked this task as not done yet:",
+                    "   " + tasks.get(index)
+            );
             return;
         }
 
@@ -70,9 +74,11 @@ public class Parser {
             Task removed = tasks.remove(index);
             storage.save(tasks.getAll());
 
-            ui.showMessage(" Noted. I've removed this task:");
-            ui.showMessage("   " + removed);
-            ui.showMessage(" Now you have " + tasks.size() + " tasks in the list.");
+            ui.showMessage(
+                    " Noted. I've removed this task:",
+                    "   " + removed,
+                    " Now you have " + tasks.size() + " tasks in the list."
+            );
             return;
         }
 
@@ -164,8 +170,10 @@ public class Parser {
      * @param count The total number of tasks after addition
      */
     private static void printAdd(Ui ui, Task task, int count) {
-        ui.showMessage(" Got it. I've added this task:");
-        ui.showMessage("   " + task);
-        ui.showMessage(" Now you have " + count + " tasks in the list.");
+        ui.showMessage(
+                " Got it. I've added this task:",
+                "   " + task,
+                " Now you have " + count + " tasks in the list."
+        );
     }
 }
