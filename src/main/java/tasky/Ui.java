@@ -62,7 +62,7 @@ public class Ui {
      * @param message Error description
      */
     public void showError(String message) {
-        response.append("OOPS!!! ").append(message).append("\n");
+        response.append("OOPS!!! ").append(message.trim()).append("\n");
     }
 
     /**
