@@ -46,12 +46,14 @@ public class Ui {
     }
 
     /**
-     * Displays a normal message to the user.
+     * Displays one or more messages to the user.
      *
-     * @param message Message to be shown
+     * @param messages Messages to be shown
      */
-    public void showMessage(String message) {
-        response.append(message).append("\n");
+    public void showMessage(String... messages) {
+        for (String message : messages) {
+            response.append(message).append("\n");
+        }
     }
 
     /**

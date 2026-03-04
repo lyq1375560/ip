@@ -1,2 +1,0 @@
-TODO | 1 | read book
-EVENT | 0 | meeting | 2pm | 4pm
