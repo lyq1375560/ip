@@ -51,23 +51,23 @@ public class TaskList {
     }
 
     /**
-     * Removes the task at the specified index.
-     *
-     * @param index Zero-based index of the task to remove
-     * @return The removed task
-     */
-    public Task remove(int index) {
-        assert index >= 0 && index < tasks.size() : "Index out of bounds when removing task";
-        return tasks.remove(index);
-    }
-
-    /**
      * Returns the number of tasks in the list.
      *
      * @return Total number of tasks
      */
     public int size() {
         return tasks.size();
+    }
+
+    /**
+     * Returns the task at the specified index.
+     *
+     * @param index Zero-based index of the task
+     * @return The task at the given index
+     */
+    public Task get(int index) {
+        assert index >= 0 && index < tasks.size() : "Index out of bounds when retrieving task";
+        return tasks.get(index);
     }
 
     /**
@@ -88,21 +88,8 @@ public class TaskList {
      * @return List of matching tasks
      */
     public ArrayList<Task> findByKeyword(String keyword) {
-
-<<<<<<< HEAD
         return tasks.stream()
                 .filter(task -> task.description.contains(keyword))
                 .collect(Collectors.toCollection(ArrayList::new));
-=======
-        for (Task task : tasks) {
-            String description = task.getDescription();
-
-            if (description.contains(keyword)) {
-                matches.add(task);
-            }
-        }
-
-        return matches;
->>>>>>> master
     }
 }

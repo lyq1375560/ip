@@ -26,17 +26,11 @@ public class Parser {
             Ui ui,
             Storage storage
     ) throws TaskyException {
-
         assert input != null : "User input should not be null";
-<<<<<<< HEAD
-
-=======
         assert tasks != null : "TaskList should not be null";
         assert ui != null : "Ui should not be null";
         assert storage != null : "Storage should not be null";
 
-        // Exit command
->>>>>>> master
         if (input.equals("bye")) {
             handleBye(ui);
             return;
@@ -131,9 +125,7 @@ public class Parser {
      * Handles the list command.
      */
     private static void handleList(TaskList tasks, Ui ui) {
-
         ui.showMessage(" Here are the tasks in your list:");
-
         for (int i = 0; i < tasks.size(); i++) {
             ui.showMessage(" " + (i + 1) + "." + tasks.get(i));
         }
@@ -148,12 +140,9 @@ public class Parser {
             Ui ui,
             Storage storage
     ) throws TaskyException {
-
         int index = parseIndex(input.substring(5), tasks.size());
-
         tasks.get(index).markDone();
         saveTasks(storage, tasks);
-
         ui.showMessage(
                 " Nice! I've marked this task as done:",
                 "   " + tasks.get(index)
@@ -169,12 +158,9 @@ public class Parser {
             Ui ui,
             Storage storage
     ) throws TaskyException {
-
         int index = parseIndex(input.substring(7), tasks.size());
-
         tasks.get(index).unmarkDone();
         saveTasks(storage, tasks);
-
         ui.showMessage(
                 " OK, I've marked this task as not done yet:",
                 "   " + tasks.get(index)
@@ -190,13 +176,9 @@ public class Parser {
             Ui ui,
             Storage storage
     ) throws TaskyException {
-
         int index = parseIndex(input.substring(7), tasks.size());
-
         Task removed = tasks.remove(index);
-
         saveTasks(storage, tasks);
-
         ui.showMessage(
                 " Noted. I've removed this task:",
                 "   " + removed,
@@ -213,16 +195,13 @@ public class Parser {
             Ui ui,
             Storage storage
     ) throws TaskyException {
-
         if (input.equals("todo")) {
             throw new TaskyException("The description of a todo cannot be empty.");
         }
 
         Task task = new Todo(input.substring(5));
-
         tasks.add(task);
         saveTasks(storage, tasks);
-
         printAdd(ui, task, tasks.size());
     }
 
@@ -235,18 +214,14 @@ public class Parser {
             Ui ui,
             Storage storage
     ) throws TaskyException {
-
         if (!input.contains(" /by ")) {
             throw new TaskyException("A deadline must have a /by date.");
         }
 
         String[] parts = input.substring(9).split(" /by ");
-
         Task task = new Deadline(parts[0], parts[1]);
-
         tasks.add(task);
         saveTasks(storage, tasks);
-
         printAdd(ui, task, tasks.size());
     }
 
@@ -259,19 +234,15 @@ public class Parser {
             Ui ui,
             Storage storage
     ) throws TaskyException {
-
         if (!input.contains(" /from ") || !input.contains(" /to ")) {
             throw new TaskyException("An event must have /from and /to dates.");
         }
 
         String[] parts = input.substring(6).split(" /from ");
         String[] times = parts[1].split(" /to ");
-
         Task task = new Event(parts[0], times[0], times[1]);
-
         tasks.add(task);
         saveTasks(storage, tasks);
-
         printAdd(ui, task, tasks.size());
     }
 
@@ -283,15 +254,12 @@ public class Parser {
             TaskList tasks,
             Ui ui
     ) throws TaskyException {
-
         String keyword = input.substring(5).trim();
-
         if (keyword.isEmpty()) {
             throw new TaskyException("Please provide a keyword to search for.");
         }
 
         ArrayList<Task> matches = tasks.findByKeyword(keyword);
-
         ui.showMessage(" Here are the matching tasks in your list:");
 
         for (int i = 0; i < matches.size(); i++) {
@@ -304,7 +272,6 @@ public class Parser {
      */
     private static void saveTasks(Storage storage, TaskList tasks)
             throws TaskyException {
-
         storage.save(tasks.getAll());
     }
 }
